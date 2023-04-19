@@ -9,6 +9,16 @@ import com.KoreaIT.sdy.demo.vo.Article;
 @Mapper
 public interface ArticleRepository {
 
-	List<Article> getArticles();
+	public List<Article> getArticles();
+
+	public void writeArticle(String title, String body);
+
+	public int getLastInsertId();
+
+	public Article getArticleById(int id);
+
+	public void deleteArticle(int id);
+
+	public void modifyArticle(int id, String title, String body);
 
 }

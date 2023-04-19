@@ -16,5 +16,26 @@ public class ArticleService {
 	public List<Article> getArticles() {
 		return articleRepository.getArticles();
 	}
+
+	public int writeArticle(String title, String body) {
+		articleRepository.writeArticle(title, body);
+		
+		int id = articleRepository.getLastInsertId();
+		return id;
+	}
+
+	public Article getArticleById(int id) {
+		return articleRepository.getArticleById(id);
+	}
+
+	public void deleteArticle(int id) {
+		articleRepository.deleteArticle(id);
+	}
+
+	public Article modifyArticle(int id, String title, String body) {
+		articleRepository.modifyArticle(id, title,body);
+		
+		return articleRepository.getArticleById(id);
+	}
 	
 }
