@@ -10,7 +10,7 @@ public class ResultData<DT> {
 	@Getter
 	private DT data1;
 	
-	public static ResultData<?> from(String ResultCode, String msg) {
+	public static <DT> ResultData<DT> from(String ResultCode, String msg) {
 		return from(ResultCode, msg, null);
 	}
 	
