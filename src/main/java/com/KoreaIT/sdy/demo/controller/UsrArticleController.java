@@ -76,6 +76,11 @@ public class UsrArticleController {
 		if(article==null) {
 			return ResultData.from("F-1", Ut.f("%d번 글은 존재하지 않습니다.", id));
 		}
+		
+		if(article.getMemberId()!=loginedMemberId) {
+			return ResultData.from("F-2", "해당 게시글에 권한이 없습니다.");
+		}
+		
 		articleService.deleteArticle(id);
 		return ResultData.from("S-1", Ut.f("%d번 글이 삭제되었습니다.", id));
 	}
@@ -99,6 +104,10 @@ public class UsrArticleController {
 		
 		if(article==null) {
 			return ResultData.from("F-1", Ut.f("%d번 글은 존재하지 않습니다.", id));
+		}
+		
+		if(article.getMemberId()!=loginedMemberId) {
+			return ResultData.from("F-2", "해당 게시글에 권한이 없습니다.");
 		}
 		
 		ResultData<Article> actorCanModifyRd = articleService.actorCanModifyRd(id, title, body);
