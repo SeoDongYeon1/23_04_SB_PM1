@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.KoreaIT.sdy.demo.service.ArticleService;
 import com.KoreaIT.sdy.demo.util.Ut;
 import com.KoreaIT.sdy.demo.vo.Article;
+import com.KoreaIT.sdy.demo.vo.ResultData;
 
 @Controller
 public class UsrArticleController {
@@ -18,18 +19,27 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/list")
 	@ResponseBody
-	public List<Article> showList() {
-		return articleService.getArticles();
+	public ResultData<List<Article>> showList() {
+		List<Article> articles = articleService.getArticles();
+		
+		return ResultData.from("S-1", "Article List", articles);
 	}
 	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public Object doWrite(String title, String body) {
+	public ResultData<?> doWrite(String title, String body) {
+		if(Ut.empty(title)) {
+			return ResultData.from("F-1", "제목을 입력해주세요.");
+		}
+		if(Ut.empty(body)) {
+			return ResultData.from("F-1", "내용을 입력해주세요.");
+		}
+		
 		int id = articleService.writeArticle(title, body);
 		
 		Article article = articleService.getArticleById(id);
 		
-		return Ut.f("%d번 글이 생성되었습니다.", id) + article;
+		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다.", id), article);
 	}
 	
 	@RequestMapping("/usr/article/doDelete")
