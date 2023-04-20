@@ -11,9 +11,14 @@ public class MemberService {
 	@Autowired
 	MemberRepository memberRepository;
 
-	public Member join(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public int join(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+		memberRepository.join(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
-		return memberRepository.join(loginId, loginPw, name, nickname, cellphoneNum, email);
+		return memberRepository.getLastInsertId();
+	}
+
+	public Member getMemberById(int id) {
+		return memberRepository.getMemberById(id);
 	}
 	
 }
