@@ -27,7 +27,7 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<?> doWrite(String title, String body) {
+	public ResultData<Article> doWrite(String title, String body) {
 		if(Ut.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요.");
 		}
@@ -35,11 +35,11 @@ public class UsrArticleController {
 			return ResultData.from("F-1", "내용을 입력해주세요.");
 		}
 		
-		int id = articleService.writeArticle(title, body);
+		ResultData<Integer> writeRd = articleService.writeArticle(title, body);
 		
-		Article article = articleService.getArticleById(id);
+		Article article = articleService.getArticleById(writeRd.getData1());
 		
-		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다.", id), article);
+		return ResultData.newData(writeRd, article);
 	}
 	
 	@RequestMapping("/usr/article/doDelete")
@@ -62,8 +62,13 @@ public class UsrArticleController {
 		if(article==null) {
 			return ResultData.from("F-1", Ut.f("%d번 글은 존재하지 않습니다.", id));
 		}
-		article = articleService.modifyArticle(id, title, body);
-		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다.", id), article);
+		
+		ResultData<Article> actorCanModifyRd = articleService.actorCanModifyRd(id, title, body);
+		
+		if(actorCanModifyRd.isFail()) {
+			return actorCanModifyRd;
+		}
+		return ResultData.newData(actorCanModifyRd, article);
 	}
 	
 }
