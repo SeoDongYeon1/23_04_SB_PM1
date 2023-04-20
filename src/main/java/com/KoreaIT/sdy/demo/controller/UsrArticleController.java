@@ -2,6 +2,8 @@ package com.KoreaIT.sdy.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,24 +29,48 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(String title, String body) {
+	public ResultData<Article> doWrite(HttpSession httpSession, String title, String body) {
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+		
+		if(httpSession.getAttribute("loginedMemberId")!=null) {
+			isLogined = true;
+			loginedMemberId = (int)httpSession.getAttribute("loginedMemberId");
+		}
+		
+		if(isLogined==false) {
+			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
+		}
+		
 		if(Ut.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요.");
 		}
 		if(Ut.empty(body)) {
-			return ResultData.from("F-1", "내용을 입력해주세요.");
+			return ResultData.from("F-2", "내용을 입력해주세요.");
 		}
 		
-		ResultData<Integer> writeRd = articleService.writeArticle(title, body);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId);
 		
-		Article article = articleService.getArticleById(writeRd.getData1());
+		Article article = articleService.getArticleById(writeArticleRd.getData1());
 		
-		return ResultData.newData(writeRd, article);
+		return ResultData.newData(writeArticleRd, article);
 	}
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData<Article> doDelete(int id) {
+	public ResultData<Article> doDelete(HttpSession httpSession, int id) {
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+		
+		if(httpSession.getAttribute("loginedMemberId")!=null) {
+			isLogined = true;
+			loginedMemberId = (int)httpSession.getAttribute("loginedMemberId");
+		}
+		
+		if(isLogined==false) {
+			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
+		}
+		
 		Article article = articleService.getArticleById(id);
 		
 		if(article==null) {
@@ -56,7 +82,19 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData<Article> doModify(int id, String title, String body) {
+	public ResultData<Article> doModify(HttpSession httpSession, int id, String title, String body) {
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+		
+		if(httpSession.getAttribute("loginedMemberId")!=null) {
+			isLogined = true;
+			loginedMemberId = (int)httpSession.getAttribute("loginedMemberId");
+		}
+		
+		if(isLogined==false) {
+			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
+		}
+		
 		Article article = articleService.getArticleById(id);
 		
 		if(article==null) {
