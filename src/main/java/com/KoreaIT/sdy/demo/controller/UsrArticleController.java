@@ -30,21 +30,12 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	@ResponseBody
-	public ResultData<Article> showDetail(HttpSession httpSession, String title, String body) {
-		boolean isLogined = false;
-		int loginedMemberId = -1;
+	public String showDetail(Model model, int id) {
+		Article article =articleService.getArticleById(id);
 		
-		if(httpSession.getAttribute("loginedMemberId")!=null) {
-			isLogined = true;
-			loginedMemberId = (int)httpSession.getAttribute("loginedMemberId");
-		}
+		model.addAttribute(article);
 		
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId);
-		
-		Article article = articleService.getArticleById(writeArticleRd.getData1());
-		
-		return ResultData.newData(writeArticleRd, article);
+		return "usr/article/detail";
 	}
 	
 	@RequestMapping("/usr/article/doWrite")
