@@ -1,40 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="/resource/common.css" />
-<script src="/resource/common.js" defer="defer"></script>
-<title>Article LIST</title>
-</head>
-<body>
-		<h1>LIST</h1>
+<c:set var="pageTitle" value="Article List" />
+<%@ include file="../common/head.jspf"%>
 
-		<hr />
-		<table border="1">
-				<thead>
+<div class="mt-8 text-xl">
+		<table class="table-box-type-1">
+				<tr>
+						<th>번호</th>
+						<th>제목</th>
+						<th>작성날짜</th>
+						<th>작성자</th>
+				</tr>
+
+				<c:forEach var="article" items="${articles }">
 						<tr>
-								<th>번호</th>
-								<th>날짜</th>
-								<th>제목</th>
-								<th>작성자</th>
+								<th>${article.id }</th>
+								<th>
+										<a class="title" href="detail?id=${article.id }">${article.title }</a>
+								</th>
+								<th>${article.regDate.substring(0,10) }</th>
+								<th>${article.memberId }</th>
 						</tr>
-				</thead>
-				<tbody>
-						<c:forEach var="article" items="${articles }">
-								<tr>
-										<td>${article.id }</td>
-										<td>${article.regDate.substring(0,10) }</td>
-										<td>
-												<a href="detail?id=${article.id }">${article.title }</a>
-										</td>
-										<td>${article.memberId }</td>
-								</tr>
-						</c:forEach>
-				</tbody>
+
+				</c:forEach>
 		</table>
+</div>
 
+<style type="text/css">
+.title {
+	color: gray;
+}
+.title:hover {
+	text-decoration: underline;
+	color: black;
+}
 
-</body>
-</html>
+.table-box-type-1 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+	border: 2px solid black;
+}
+tr,th {
+	border: 2px solid black;
+}
+</style>
+
+<%@ include file="../common/foot.jspf"%>

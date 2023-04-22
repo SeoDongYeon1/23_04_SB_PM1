@@ -1,16 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>게시글 상세보기 페이지</title>
-</head>
-<body>
-		<h1>Article Detail</h1>
-
-		<hr />
-		<table border="1">
+<c:set var="pageTitle" value="Article Detail"/>
+<%@ include file = "../common/head.jspf" %>
+<div class="mt-8 text-xl">
+		<table class="table-box-type-1">
 						<tr>
 								<th>번호</th>
 								<th>${article.id }</th>
@@ -41,7 +34,16 @@
 								<th>${article.memberId }</th>
 						</tr>
 		</table>
-
-
-</body>
-</html>
+</div>
+<style type="text/css">
+.table-box-type-1 {
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+	border: 2px solid black;
+}
+tr,th {
+	border: 2px solid black;
+}
+</style>
+<%@ include file = "../common/foot.jspf" %>

@@ -5,13 +5,41 @@
 <head>
 <meta charset="UTF-8">
 <title>${pageTitle }</title>
+
+<!-- 태일윈드 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+
+<!-- 폰트어썸 불러오기 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+
+<!-- 제이쿼리 불러오기 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
 <link rel="stylesheet" href="/resource/common.css" />
 <script src="/resource/common.js" defer="defer"></script>
+
 </head>
 <body>
-	<h1 style="text-align:center;">MAIN</h1>
-	<hr />
-	
-	<a href="../article/list">List</a>
-</body>
-</html>
+		<h1 style="font-size: 35px; text-align: center;">${pageTitle }</h1>
+		<header>
+				<div class=" h-20 flex container mx-auto text-2xl font-bold justify-between">
+						<a href="#" class=" flex items-center px-3">
+								<span>로고</span>
+						</a>
+						
+						<ul class="flex">
+								<li class="hover:underline">
+										<a class="h-full px-3 flex items-center" href="/">
+												<span>HOME</span>
+										</a>
+								</li>
+								<li class="hover:underline">
+										<a class="h-full px-3 flex items-center" href="/usr/article/list">
+												<span>LIST</span>
+										</a>
+								</li>
+						</ul>
+				</div>
+		</header>
+		<hr />
+		<main>
