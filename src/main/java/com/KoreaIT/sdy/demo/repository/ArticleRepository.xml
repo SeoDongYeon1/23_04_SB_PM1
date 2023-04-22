@@ -12,7 +12,8 @@
 	SELECT a.*, m.nickname AS 'extra__writer' 
 	FROM article a
 	INNER JOIN `member` m
-	ON a.memberId = m.id;
+	ON a.memberId = m.id
+	ORDER BY a.id DESC;
 	</select>
 	
 	<select id="getArticleById" resultType="Article">

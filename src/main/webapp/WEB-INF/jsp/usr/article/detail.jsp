@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="com.KoreaIT.sdy.demo.vo.Article"%>
+<%
+	Article article = (Article) request.getAttribute("article");
+	int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+%>
 <c:set var="pageTitle" value="Article Detail"/>
 <%@ include file = "../common/head.jspf" %>
 <div class="mt-8 text-xl">
@@ -37,8 +42,16 @@
 		
 		<div class="btn_box">
 			<button class= "btn-text-link" type="button" onclick="history.back()">뒤로가기</button>
-			<a class= "btn-text-link" onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;" href="doDelete?id=${article.id }">삭제</a>
-			<a class= "btn-text-link" >수정</a>
+			
+			<!-- ver 1 -->
+			<c:if test="${article.actorCanDelete }">
+				<a class= "btn-text-link" onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;" href="doDelete?id=${article.id }">삭제</a>
+			</c:if>
+			
+			<!-- ver 2 -->
+			<%if(loginedMemberId==article.getMemberId()) {%>
+				<a class= "btn-text-link" >수정</a>
+			<%} %>
 		</div>
 </div>
 <style type="text/css">
@@ -55,7 +68,7 @@ tr,th {
 	text-align: center;
 }
 
-.btn_box > .btn-text-link:hover{
+.btn-text-link:hover{
 	color: deepskyblue;
 	text-decoration: underline;
 	cursor: pointer;
