@@ -34,6 +34,12 @@
 								<th>${article.extra__writer }</th>
 						</tr>
 		</table>
+		
+		<div class="btn_box">
+			<button class= "btn-text-link" type="button" onclick="history.back()">뒤로가기</button>
+			<a class= "btn-text-link" onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;" href="doDelete?id=${article.id }">삭제</a>
+			<a class= "btn-text-link" >수정</a>
+		</div>
 </div>
 <style type="text/css">
 .table-box-type-1 {
@@ -44,6 +50,15 @@
 }
 tr,th {
 	border: 2px solid black;
+}
+.btn_box {
+	text-align: center;
+}
+
+.btn_box > .btn-text-link:hover{
+	color: deepskyblue;
+	text-decoration: underline;
+	cursor: pointer;
 }
 </style>
 <%@ include file = "../common/foot.jspf" %>
