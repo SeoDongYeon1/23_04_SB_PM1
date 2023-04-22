@@ -19,7 +19,7 @@
 										<a class="title" href="detail?id=${article.id }">${article.title }</a>
 								</th>
 								<th>${article.regDate.substring(0,10) }</th>
-								<th>${article.memberId }</th>
+								<th>${article.extra__writer }</th>
 						</tr>
 
 				</c:forEach>
@@ -39,10 +39,6 @@
 	margin-left: auto;
 	margin-right: auto;
 	width: 700px;
-	border: 2px solid black;
-}
-tr,th {
-	border: 2px solid black;
 }
 </style>
 

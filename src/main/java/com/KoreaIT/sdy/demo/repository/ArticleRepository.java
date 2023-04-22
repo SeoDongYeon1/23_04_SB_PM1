@@ -21,4 +21,8 @@ public interface ArticleRepository {
 
 	public void modifyArticle(int id, String title, String body);
 
+	public Article getForPrintArticle(int id);
+
+	public List<Article> getForPrintArticles();
+
 }

@@ -31,7 +31,7 @@
 						
 						<tr>
 								<th>작성자</th>
-								<th>${article.memberId }</th>
+								<th>${article.extra__writer }</th>
 						</tr>
 		</table>
 </div>

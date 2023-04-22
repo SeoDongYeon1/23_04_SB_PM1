@@ -42,5 +42,13 @@ public class ArticleService {
 		
 		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다.", id), article);
 	}
+
+	public Article getForPrintArticle(int id) {
+		return articleRepository.getForPrintArticle(id);
+	}
+
+	public List<Article> getForPrintArticles() {
+		return articleRepository.getForPrintArticles();
+	}
 	
 }
