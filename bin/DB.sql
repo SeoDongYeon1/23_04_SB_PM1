@@ -8,7 +8,6 @@ CREATE TABLE article(
 id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 regDate DATETIME NOT NULL,
 updateDate DATETIME NOT NULL,
-memberId INT(11) UNSIGNED NOT NULL,
 title VARCHAR(300) NOT NULL,
 `body` TEXT NOT NULL
 );
@@ -38,21 +37,21 @@ ALTER TABLE `member` CONVERT TO CHARSET UTF8;
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 1,
+#memberId = 1,
 title = '제목1',
 `body` ='내용1';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 2,
+#memberId = 2,
 title = '제목2',
 `body` ='내용2';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 3,
+#memberId = 3,
 title = '제목3',
 `body` ='내용3';
 

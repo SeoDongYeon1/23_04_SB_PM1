@@ -2,7 +2,7 @@ package com.KoreaIT.sdy.demo.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +14,7 @@ import com.KoreaIT.sdy.demo.service.ArticleService;
 import com.KoreaIT.sdy.demo.util.Ut;
 import com.KoreaIT.sdy.demo.vo.Article;
 import com.KoreaIT.sdy.demo.vo.ResultData;
+import com.KoreaIT.sdy.demo.vo.Rq;
 
 @Controller
 public class UsrArticleController {
@@ -30,12 +31,9 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(HttpSession httpSession ,Model model, int id) {
-		int loginedMemberId = -1;
-		
-		if(httpSession.getAttribute("loginedMemberId")!=null) {
-			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
-		}
+	public String showDetail(HttpServletRequest req, Model model, int id) {
+		Rq rq = new Rq(req);
+		int loginedMemberId = rq.getLoginedMemberId();
 		
 		Article article =articleService.getForPrintArticle(loginedMemberId, id);
 		
@@ -47,16 +45,10 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(HttpSession httpSession, String title, String body) {
-		boolean isLogined = false;
-		int loginedMemberId = -1;
+	public ResultData<Article> doWrite(HttpServletRequest req, String title, String body) {
+		Rq rq = new Rq(req);
 		
-		if(httpSession.getAttribute("loginedMemberId")!=null) {
-			isLogined = true;
-			loginedMemberId = (int)httpSession.getAttribute("loginedMemberId");
-		}
-		
-		if(isLogined==false) {
+		if(rq.isLogined()==false) {
 			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
 		}
 		
@@ -67,7 +59,7 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요.");
 		}
 		
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, rq.getLoginedMemberId());
 		
 		Article article = articleService.getArticleById(writeArticleRd.getData1());
 		
@@ -76,16 +68,9 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(HttpSession httpSession, int id) {
-		boolean isLogined = false;
-		int loginedMemberId = -1;
-		
-		if(httpSession.getAttribute("loginedMemberId")!=null) {
-			isLogined = true;
-			loginedMemberId = (int)httpSession.getAttribute("loginedMemberId");
-		}
-		
-		if(isLogined==false) {
+	public String doDelete(HttpServletRequest req, int id) {
+		Rq rq = new Rq(req);
+		if(rq.isLogined()==false) {
 			return Ut.jsHistoryBack("F-A", "로그인 상태가 아닙니다.");
 		}
 		
@@ -95,7 +80,7 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-1", Ut.f("%d번 글은 존재하지 않습니다.", id));
 		}
 		
-		if(article.getMemberId()!=loginedMemberId) {
+		if(article.getMemberId()!=rq.getLoginedMemberId()) {
 			return Ut.jsHistoryBack("F-2", "해당 게시글에 권한이 없습니다.");
 		}
 		
@@ -106,16 +91,10 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData<Article> doModify(HttpSession httpSession, int id, String title, String body) {
-		boolean isLogined = false;
-		int loginedMemberId = -1;
+	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) {
+		Rq rq = new Rq(req);
 		
-		if(httpSession.getAttribute("loginedMemberId")!=null) {
-			isLogined = true;
-			loginedMemberId = (int)httpSession.getAttribute("loginedMemberId");
-		}
-		
-		if(isLogined==false) {
+		if(rq.isLogined()==false) {
 			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
 		}
 		
@@ -125,7 +104,7 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Ut.f("%d번 글은 존재하지 않습니다.", id));
 		}
 		
-		if(article.getMemberId()!=loginedMemberId) {
+		if(article.getMemberId()!=rq.getLoginedMemberId()) {
 			return ResultData.from("F-2", "해당 게시글에 권한이 없습니다.");
 		}
 		
