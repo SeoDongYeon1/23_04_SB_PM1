@@ -32,7 +32,8 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(HttpServletRequest req, Model model, int id) {
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
+		
 		int loginedMemberId = rq.getLoginedMemberId();
 		
 		Article article =articleService.getForPrintArticle(loginedMemberId, id);
@@ -46,7 +47,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public ResultData<Article> doWrite(HttpServletRequest req, String title, String body) {
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		if(rq.isLogined()==false) {
 			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
@@ -69,7 +70,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(HttpServletRequest req, int id) {
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		if(rq.isLogined()==false) {
 			return Ut.jsHistoryBack("F-A", "로그인 상태가 아닙니다.");
 		}
@@ -92,7 +93,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) {
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		if(rq.isLogined()==false) {
 			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
