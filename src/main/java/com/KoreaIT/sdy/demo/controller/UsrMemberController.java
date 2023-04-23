@@ -51,6 +51,11 @@ public class UsrMemberController {
 		return ResultData.newData(joinRd, member);
 	}
 	
+	@RequestMapping("/usr/member/login")
+	public String login(HttpSession httpSession, String loginId, String loginPw) {
+		
+		return "usr/member/login";
+	}
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public ResultData<Member> doLogin(HttpSession httpSession, String loginId, String loginPw) {
@@ -86,7 +91,7 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public ResultData<Member> doLogout(HttpSession httpSession) {
+	public String doLogout(HttpSession httpSession) {
 		boolean isLogined = false;
 		
 		if(httpSession.getAttribute("loginedMemberId")!=null) {
@@ -94,10 +99,10 @@ public class UsrMemberController {
 		}
 		
 		if(isLogined==false) {
-			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
+			return Ut.jsHistoryBack("F-A", "로그인 상태가 아닙니다.");
 		}
 		httpSession.removeAttribute("loginedMemberId");
-		return ResultData.from("S-1", "로그아웃 되었습니다.");
+		return Ut.jsReplace("로그아웃 되었습니다.","../home/main");
 	}
 	
 }
